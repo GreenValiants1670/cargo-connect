@@ -105,7 +105,7 @@ def test_trip():
     grind(left_speed=-30, right_speed=-30, run_seconds=23)
 
 def the_trip_with_the_crates():
-  pass
+  print("foo')
 
 def the_trip_with_the_chest():
   pass
