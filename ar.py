@@ -10,6 +10,7 @@ motor_right = Motor('A')
 motor_front_left = Motor('C')
 motor_front_right = Motor('D')
 color = ColorSensor('F')
+color_2 = ColorSensor('E')
 left_motor = rawhub.port.A.motor
 right_motor = rawhub.port.B.motor
 motor_pair = left_motor.pair(right_motor)
@@ -111,7 +112,20 @@ def the_trip_with_the_chest():
   pass
 
 def the_trip_with_the_crane():
-  pass
+    grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
+    two_wheel_move(left_degrees=624, right_degrees=475, speed=30)
+    two_wheel_move(left_degrees=519, right_degrees=486, speed=30)
+    turn_until_line(left_or_right=TurnType.LEFT)
+    #Blue tree shadow might be problematic
+    line_follower_with_color(speed=30)
+    straight(degrees_to_move=25)
+    two_wheel_move(left_degrees=249, right_degrees=543, speed=30)
+    two_wheel_move(left_degrees=40, right_degrees=46, speed=30)
+    grind(run_seconds=1, right_speed=0, left_speed=30)
+    grind(run_seconds=1, right_speed=30, left_speed=30)
+    motor_front_right.run_for_degrees(-100,MAX_SPEED)
+    straight(degrees_to_move=-100)
+    rot_motion()
 
 def the_ending_trip():
     two_wheel_move(left_degrees=1044, right_degrees=1103, speed=30)
@@ -327,6 +341,29 @@ def line_follower(move_degrees=1000, speed=20, gain=0.2):
     motor_right.stop()
     motor_left.stop()
     #print("Line follower Complete")
+    
+def line_follower_with_color(speed=20, gain=0.2):
+    KO = gain
+    prop_gain_t = KO + (0.05/40) * (speed - 20)
+    prop_gain = max(prop_gain_t, KO)
+    inter_gain = 0
+    sum_of_error = 0
+    loop_counter = 0
+    def more_degrees_to_go():
+        current_color = color_2.get_reflected_light()
+        return current_color >= BLACK_MIDDLE
+
+    while more_degrees_to_go():
+        current_color = color.get_reflected_light()
+        error = current_color - BLACK_EDGE
+        sum_of_error += error
+        adjusting_speed = prop_gain * error + inter_gain * sum_of_error
+        left_motor_input = reverse(int(speed - adjusting_speed))
+        right_motor_input = int(speed + adjusting_speed)
+        motor_right.start_at_power(right_motor_input)
+        motor_left.start_at_power(left_motor_input)
+    motor_right.stop()
+    motor_left.stop()
 
 def delete_extra_presses():
     hub.left_button.was_pressed()
@@ -397,5 +434,6 @@ def vrooom():
                 print("Ending Trip")
         last_color = current_color
 vrooom()
+#test_trip()
 #test_gyro_turn()
 raise SystemExit("END OF PROGRAM")
