@@ -103,29 +103,99 @@ def test_motors_up_down():
     motor_front_right.run_for_degrees(-4500, speed=MAX_SPEED)
 
 def test_trip():
-    grind(left_speed=-30, right_speed=-30, run_seconds=23)
+    print("started test trip")
+    stop_on_line(30)
 
 def the_trip_with_the_crates():
-  pass
+    grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
+    two_wheel_move(left_degrees=624, right_degrees=475, speed=30)
+    two_wheel_move(left_degrees=519, right_degrees=471, speed=30)
+    motor_left.set_degrees_counted(0)
+    motor_right.set_degrees_counted(0)
+    turn_until_line(left_or_right=TurnType.LEFT)
+    print("aquire_line",motor_left.get_degrees_counted())
+    print("aquire_line",motor_right.get_degrees_counted())
+    wait_for_ms(100)
+    motor_left.run_for_degrees(-40,30)
+    line_follower(move_degrees=660, speed=35, gain=0.19)
+    hub.speaker.beep(100, 0.125)
+    line_follower(move_degrees=180, speed=20, gain=0.25)
+    hub.speaker.beep(100, 0.125)
+    line_follower(move_degrees=390, speed=35, gain=0.19)
+    motor_left.set_degrees_counted(0)
+    motor_right.set_degrees_counted(0)
+    motor_left.run_for_degrees(-432,30) #original -429
+    two_wheel_move(left_degrees=-480, right_degrees=-480, speed=30)
+    grind(left_speed=-40, right_speed=-40, run_seconds=0.5)
+    two_wheel_move(left_degrees=395, right_degrees=395, speed=30)
+    wait_for_ms(150)
+    two_wheel_move(left_degrees=395, right_degrees=395, speed=30)
+    grind(left_speed=20,right_speed=20,run_seconds=0.75)
+    motor_front_right.run_for_degrees(3300, speed=MAX_SPEED)
+    motor_front_right.run_for_seconds(0.1,90)
+    motor_front_left.run_for_seconds(1,-MAX_SPEED)
+    motor_front_left.run_for_seconds(1,MAX_SPEED)
+    motor_front_right.run_for_degrees(-3300, speed=MAX_SPEED)
+    grind(left_speed=-25,right_speed=-25, run_seconds=0.5)
+    hub.speaker.beep(100, 0.125)
+    acquire_line(speed=-20)
+    hub.speaker.beep(100, 0.125)
+    motor_left.run_for_degrees(-50,20)
+    gyro_turn_2(input_angle=252, relative=False, timeout=2, left_or_right=TurnType.BOTH, counter_or_clock=TurnDirection.CLOCKWISE)
+    hub.speaker.beep(100, 0.125)
+    motor_front_left.run_for_seconds(1,-MAX_SPEED)
+    two_wheel_move(left_degrees=884, right_degrees=836, speed=35)
+    two_wheel_move(left_degrees=452, right_degrees=519, speed=35)
+    motor_front_left.run_for_seconds(1,MAX_SPEED)
+    two_wheel_move(left_degrees=1534, right_degrees=1280, speed=45)
 
 def the_trip_with_the_chest():
-  pass
+    motor_front_left.run_for_seconds(seconds=0.1,speed=10)
+    motor_front_left.set_degrees_counted(0)
+    motor_front_right.set_degrees_counted(0)
+    grind(left_speed=-40, right_speed=-40, run_seconds=0.3)
+    motor_front_left.run_for_degrees(45, speed=40)
+    two_wheel_move(left_degrees=963, right_degrees=919, speed=40)
+    two_wheel_move(left_degrees=38, right_degrees=-38, speed=20)
+    two_wheel_move(left_degrees=85, right_degrees=85, speed=40)
+    motor_front_left.run_for_degrees(120, speed=40)
+    motor_front_left.run_for_degrees(-140, speed=40)
+    two_wheel_move(left_degrees=65, right_degrees=65, speed=30)
+    motor_front_left.run_for_degrees(50, speed=40)
+    motor_front_left.run_for_degrees(-80,speed=40)
+    two_wheel_move(left_degrees=130, right_degrees=150, speed=30)
+    two_wheel_move(left_degrees=66, right_degrees=3, speed=30)
+    motor_front_right.run_for_degrees(-80, speed=30)
+    two_wheel_move(left_degrees=-220, right_degrees=-242, speed=30)
+    grind(left_speed=-50, right_speed=-50, run_seconds=3)
+    motor_front_right.run_for_degrees(-200, speed=40)
 
 def the_trip_with_the_crane():
     grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
     two_wheel_move(left_degrees=624, right_degrees=475, speed=30)
     two_wheel_move(left_degrees=519, right_degrees=486, speed=30)
     turn_until_line(left_or_right=TurnType.LEFT)
-    #Blue tree shadow might be problematic
-    line_follower_with_color(speed=30)
-    straight(degrees_to_move=25)
-    two_wheel_move(left_degrees=249, right_degrees=543, speed=30)
-    two_wheel_move(left_degrees=40, right_degrees=46, speed=30)
-    grind(run_seconds=1, right_speed=0, left_speed=30)
-    grind(run_seconds=1, right_speed=30, left_speed=30)
-    motor_front_right.run_for_degrees(-100,MAX_SPEED)
-    straight(degrees_to_move=-100)
-    rot_motion()
+    line_follower(move_degrees=590, speed=35, gain=0.19)
+    hub.speaker.beep(100, 0.125)
+    two_wheel_move(left_degrees=25, right_degrees=42, speed=15)
+    two_wheel_move(left_degrees=-145, right_degrees=145, speed=MIN_POWER_TO_MOVE)
+    two_wheel_move(left_degrees=254, right_degrees=246, speed=18)
+    grind(left_speed=25, right_speed=25, run_seconds=0.125)
+    hub.speaker.beep(101, 0.25)
+    grind(left_speed=25, right_speed=-15, run_seconds=0.625)
+    hub.speaker.beep(100, 0.5)
+    motor_front_right.run_for_degrees(-100, MAX_SPEED)
+    hub.speaker.beep(102, 0.5)
+    two_wheel_move(left_degrees=-300, right_degrees=-300, speed=20)
+    hub.speaker.beep(105, 0.5)
+    two_wheel_move(left_degrees=180, right_degrees=-36, speed=30)
+    hub.speaker.beep(110, 0.5)
+    #original on line below: left=625, right=642, speed=30
+    two_wheel_move(left_degrees=625, right_degrees=642, speed=30)
+    two_wheel_move(left_degrees=200, right_degrees=157, speed=30)
+    grind(left_speed=20, right_speed=20, run_seconds=0.75)
+    two_wheel_move(left_degrees=-241, right_degrees=-13, speed=30)
+    grind(left_speed=20, right_speed=20, run_seconds=0.8)
 
 def the_ending_trip():
     two_wheel_move(left_degrees=1044, right_degrees=1103, speed=30)
@@ -188,7 +258,41 @@ def turn_until_line(left_or_right=TurnType.LEFT, speed=10):
     hub.speaker.beep(90, 0.2)
     #print("Found line")
 
-def gyro_turn(input_angle = 90, relative = False, timeout = 6, left_or_right = TurnType.BOTH, counter_or_clock = TurnDirection.CLOCKWISE):
+def gyro_turn(input_angle = 90, relative = False, timeout = 6, left_or_right = TurnType.BOTH):
+    STOP_AT_TARGET_TOLERANCE = 1
+    def map_gyro_angle(x):
+        modulus_x = x % 360
+        if modulus_x >= 0 and modulus_x <= 180:
+            return modulus_x
+        else:
+            return modulus_x - 360
+    if relative == True:
+        desired_angle = rela_to_abs(input_angle)
+    else:
+        desired_angle = input_angle
+    def compute_sign_for_move(desired_angle):
+        return -sign(desired_angle)
+    sanitized_target_angle = map_gyro_angle(desired_angle)
+    def turn_at_speed_until_tolerance(speed, tolerance_degrees):
+        def at_desired_angle():
+            abs_value_of_difference = abs(hub.motion_sensor.get_yaw_angle() - sanitized_target_angle)
+            if abs_value_of_difference <= tolerance_degrees:
+                return True
+            print(hub.motion_sensor.get_yaw_angle())
+        sign = compute_sign_for_move(desired_angle)
+        if left_or_right == TurnType.BOTH:
+            motor_pair.run_at_speed(sign*speed, sign*speed)
+        elif left_or_right == TurnType.LEFT:
+            motor_pair.run_at_speed(0, sign*speed)
+        else:
+            motor_pair.run_at_speed(sign*speed, 0)
+        wait_until(at_desired_angle)
+    turn_at_speed_until_tolerance(GYRO_TURN_FAST_SPEED, SLOW_DOWN_ANGLE_BUFFER)
+    turn_at_speed_until_tolerance(GYRO_TURN_SLOW_SPEED, STOP_AT_TARGET_TOLERANCE)
+    motor_pair.brake()
+    #print("Gyro Turn Complete", hub.motion_sensor.get_yaw_angle())
+
+def gyro_turn_2(input_angle = 90, relative = False, timeout = 6, left_or_right = TurnType.BOTH, counter_or_clock = TurnDirection.CLOCKWISE):
     start_millis = time.ticks_ms()
     def limited_power(max_power,y):
         sy = sign(y)
@@ -273,7 +377,7 @@ def two_wheel_move(left_degrees=100, right_degrees=100, speed=30):
     motor_pair.preset(0,0)
     motor_pair.run_to_position(right_degrees, -left_degrees, speed, MAX_POWER, ACCEL_MS_TO_FULL_SPEED, DECEL_MS_TO_FULL_SPEED, STOP_HOLD)
     def is_done():
-        if is_within_tolerance(left_degrees, get_left_motor_degrees(), 1) and is_within_tolerance(right_degrees, get_right_motor_degrees(), 1):
+        if is_within_tolerance(left_degrees, get_left_motor_degrees(), 3) and is_within_tolerance(right_degrees, get_right_motor_degrees(), 3):
             return True
     while not is_done():
         pass
@@ -341,33 +445,29 @@ def line_follower(move_degrees=1000, speed=20, gain=0.2):
     motor_right.stop()
     motor_left.stop()
     #print("Line follower Complete")
-    
-def line_follower_with_color(speed=20, gain=0.2):
-    KO = gain
-    prop_gain_t = KO + (0.05/40) * (speed - 20)
-    prop_gain = max(prop_gain_t, KO)
-    inter_gain = 0
-    sum_of_error = 0
-    loop_counter = 0
-    def more_degrees_to_go():
-        current_color = color_2.get_reflected_light()
-        return current_color >= BLACK_MIDDLE
-
-    while more_degrees_to_go():
-        current_color = color.get_reflected_light()
-        error = current_color - BLACK_EDGE
-        sum_of_error += error
-        adjusting_speed = prop_gain * error + inter_gain * sum_of_error
-        left_motor_input = reverse(int(speed - adjusting_speed))
-        right_motor_input = int(speed + adjusting_speed)
-        motor_right.start_at_power(right_motor_input)
-        motor_left.start_at_power(left_motor_input)
-    motor_right.stop()
-    motor_left.stop()
 
 def delete_extra_presses():
     hub.left_button.was_pressed()
     hub.right_button.was_pressed()
+
+def stop_on_line(speed):
+    def until_line():
+        motor_left_stop = None
+        motor_right_stop = None
+        current_color = int(color.get_reflected_light())
+        current_color_2 = int(color_2.get_reflected_light())
+        if current_color <= BLACK_MIDDLE:
+            motor_left.stop()
+            motor_left_stop = True
+        if current_color_2 <= BLACK_MIDDLE:
+            motor_right.stop()
+            motor_right_stop = True
+        if motor_left_stop == True and motor_right_stop == True:
+            return True
+    motor_left.start(-speed)
+    motor_right.start(speed)
+    wait_until(until_line)
+    
 
 def vrooom():
 
@@ -433,7 +533,6 @@ def vrooom():
                 run_selected_trip()
                 print("Ending Trip")
         last_color = current_color
-vrooom()
-#test_trip()
-#test_gyro_turn()
+#vrooom()
+test_trip()
 raise SystemExit("END OF PROGRAM")
