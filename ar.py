@@ -369,6 +369,24 @@ def delete_extra_presses():
     hub.left_button.was_pressed()
     hub.right_button.was_pressed()
 
+def stop_on_line(speed):
+    def until_line():
+        motor_left_stop = None
+        motor_right_stop = None
+        current_color = int(color.get_reflected_light())
+        current_color_2 = int(color_2.get_reflected_light())
+        if current_color <= BLACK_MIDDLE:
+            motor_left.stop()
+            motor_left_stop = True
+        if current_color_2 <= BLACK_MIDDLE:
+            motor_right.stop()
+            motor_right_stop = True
+        if motor_left_stop == True and motor_right_stop == True:
+            return True
+    motor_left.start(-speed)
+    motor_right.start(speed)
+    wait_until(until_line)    
+    
 def vrooom():
 
     delete_extra_presses()
