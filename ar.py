@@ -103,13 +103,16 @@ def test_motors_up_down():
     motor_front_right.run_for_degrees(-4500, speed=MAX_SPEED)
 
 def test_trip():
-    grind(left_speed=-30, right_speed=-30, run_seconds=23)
+    stop_on_line(30)
+    straight(10)
+    hub.speaker.beep(100,1)
+    stop_on_line(-30)
 
 def the_trip_with_the_crates():
-  pass
+    pass
 
 def the_trip_with_the_chest():
-  pass
+    pass
 
 def the_trip_with_the_crane():
     grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
@@ -273,7 +276,7 @@ def two_wheel_move(left_degrees=100, right_degrees=100, speed=30):
     motor_pair.preset(0,0)
     motor_pair.run_to_position(right_degrees, -left_degrees, speed, MAX_POWER, ACCEL_MS_TO_FULL_SPEED, DECEL_MS_TO_FULL_SPEED, STOP_HOLD)
     def is_done():
-        if is_within_tolerance(left_degrees, get_left_motor_degrees(), 1) and is_within_tolerance(right_degrees, get_right_motor_degrees(), 1):
+        if is_within_tolerance(left_degrees, get_left_motor_degrees(), 3) and is_within_tolerance(right_degrees, get_right_motor_degrees(), 3):
             return True
     while not is_done():
         pass
@@ -341,7 +344,7 @@ def line_follower(move_degrees=1000, speed=20, gain=0.2):
     motor_right.stop()
     motor_left.stop()
     #print("Line follower Complete")
-    
+
 def line_follower_with_color(speed=20, gain=0.2):
     KO = gain
     prop_gain_t = KO + (0.05/40) * (speed - 20)
@@ -370,23 +373,27 @@ def delete_extra_presses():
     hub.right_button.was_pressed()
 
 def stop_on_line(speed):
+    motor_right.set_stop_action('hold')
+    motor_left.set_stop_action('hold')
     def until_line():
         motor_left_stop = None
         motor_right_stop = None
         current_color = int(color.get_reflected_light())
         current_color_2 = int(color_2.get_reflected_light())
         if current_color <= BLACK_MIDDLE:
-            motor_left.stop()
-            motor_left_stop = True
-        if current_color_2 <= BLACK_MIDDLE:
             motor_right.stop()
             motor_right_stop = True
+            print("right-stop")
+        if current_color_2 <= BLACK_MIDDLE:
+            motor_left.stop()
+            motor_left_stop = True
+            print("left-stop")
         if motor_left_stop == True and motor_right_stop == True:
             return True
     motor_left.start(-speed)
     motor_right.start(speed)
-    wait_until(until_line)    
-    
+    wait_until(until_line)
+
 def vrooom():
 
     delete_extra_presses()
@@ -451,7 +458,7 @@ def vrooom():
                 run_selected_trip()
                 print("Ending Trip")
         last_color = current_color
-vrooom()
-#test_trip()
+#vrooom()
+test_trip()
 #test_gyro_turn()
 raise SystemExit("END OF PROGRAM")
