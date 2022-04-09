@@ -127,7 +127,15 @@ def the_trip_with_the_crane():
     grind(run_seconds=1, right_speed=0, left_speed=30)
     grind(run_seconds=1, right_speed=30, left_speed=30)
     motor_front_right.run_for_degrees(-100,MAX_SPEED)
-    straight(degrees_to_move=-100)
+    square_up_on_line(speed=-15)
+    two_wheel_move(left_degrees=-270, right_degrees=0, speed=20)
+    two_wheel_move(left_degrees=-340, right_degrees=-343, speed=30)
+    motor_front_left.run_for_seconds(1, -30)
+    two_wheel_move(left_degrees=-282, right_degrees=-212, speed=30)
+    two_wheel_move(left_degrees=-416, right_degrees=-208, speed=30)
+    two_wheel_move(left_degrees=-200, right_degrees=-200, speed=30)
+    two_wheel_move(left_degrees=-61, right_degrees=-259, speed=30)
+    two_wheel_move(left_degrees=226, right_degrees=-3, speed=30)
     rot_motion()
 
 def the_ending_trip():
@@ -372,12 +380,15 @@ def delete_extra_presses():
     hub.left_button.was_pressed()
     hub.right_button.was_pressed()
 
-def stop_on_line(speed):
+def square_up_on_line(speed):
+    print("started stopping")
     motor_right.set_stop_action('hold')
     motor_left.set_stop_action('hold')
-    def until_line():
-        motor_left_stop = None
-        motor_right_stop = None
+    motor_left_stop = False
+    motor_right_stop = False
+    motor_left.start(-speed)
+    motor_right.start(speed)
+    while True:
         current_color = int(color.get_reflected_light())
         current_color_2 = int(color_2.get_reflected_light())
         if current_color <= BLACK_MIDDLE:
@@ -389,10 +400,7 @@ def stop_on_line(speed):
             motor_left_stop = True
             print("left-stop")
         if motor_left_stop == True and motor_right_stop == True:
-            return True
-    motor_left.start(-speed)
-    motor_right.start(speed)
-    wait_until(until_line)
+            break
 
 def vrooom():
 
@@ -458,7 +466,7 @@ def vrooom():
                 run_selected_trip()
                 print("Ending Trip")
         last_color = current_color
-#vrooom()
-test_trip()
+vrooom()
+#test_trip()
 #test_gyro_turn()
 raise SystemExit("END OF PROGRAM")
