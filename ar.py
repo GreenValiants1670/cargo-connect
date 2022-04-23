@@ -109,10 +109,43 @@ def test_trip():
     stop_on_line(-30)
 
 def the_trip_with_the_crates():
-    pass
+    grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
+    two_wheel_move(left_degrees=624, right_degrees=475, speed=30)
+    two_wheel_move(left_degrees=519, right_degrees=486, speed=30)
+    turn_until_line(left_or_right=TurnType.LEFT)
+    #Blue tree shadow might be problematic
+    line_follower_with_color(speed=30)
+    line_follower(move_degrees=300, speed=30)
+    rot_motion()
 
 def the_trip_with_the_chest():
-    pass
+    motor_front_left.run_for_seconds(seconds=0.1,speed=10)
+    motor_front_right.run_for_seconds(seconds=2, speed=10)
+    motor_front_left.set_degrees_counted(0)
+    motor_front_right.set_degrees_counted(0)
+    motor_front_right.run_for_degrees(-40,speed=30)
+    return
+    grind(left_speed=-40, right_speed=-40, run_seconds=0.3)
+    motor_front_left.run_for_degrees(45, speed=40)
+    two_wheel_move(left_degrees=963, right_degrees=919, speed=40)
+    two_wheel_move(left_degrees=38, right_degrees=-38, speed=20)
+    two_wheel_move(left_degrees=85, right_degrees=85, speed=40)
+    motor_front_left.run_for_degrees(120, speed=40)
+    motor_front_left.run_for_degrees(-140, speed=40)
+    two_wheel_move(left_degrees=65, right_degrees=65, speed=30)
+    motor_front_left.run_for_degrees(50, speed=40)
+    motor_front_left.run_for_degrees(-80,speed=40)
+    motor_front_right.run_for_degrees(-70,speed=30)
+    return
+    two_wheel_move(left_degrees=130, right_degrees=150, speed=30)
+    two_wheel_move(left_degrees=66, right_degrees=3, speed=30)
+    motor_front_right.run_for_degrees( -30, speed=30)
+    wait_for_ms(1000)
+    motor_front_right.run_for_degrees(-100, speed=40)
+    two_wheel_move(left_degrees=-220, right_degrees=-242, speed=30)
+    two_wheel_move(left_degrees=-215, right_degrees=-200, speed =30)
+    two_wheel_move(left_degrees=-127, right_degrees=35, speed=30)
+    rot_motion()
 
 def the_trip_with_the_crane():
     grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
