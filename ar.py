@@ -150,7 +150,7 @@ def the_trip_with_the_crates():
     motor_left.run_for_degrees(-50,20)
     gyro_turn(input_angle=244, relative=False, timeout=7, left_or_right=TurnType.BOTH, counter_or_clock=TurnDirection.CLOCKWISE)
     hub.speaker.beep(100, 0.10)
-    motor_front_left.run_for_seconds(1,-MAX_SPEED)
+    motor_front_left.run_for_seconds(1.25,-MAX_SPEED)
     #lowers the stick for the second bridge
     two_wheel_move(left_degrees=884, right_degrees=836, speed=35)
     two_wheel_move(left_degrees=45, right_degrees=2, speed=30)
