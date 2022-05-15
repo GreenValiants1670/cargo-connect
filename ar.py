@@ -28,7 +28,7 @@ GYRO_TURN_SLOW_SPEED = 7
 BLACK_MIDDLE = 30
 BLACK_EDGE = 55
 SLOW_DOWN_ANGLE_BUFFER = 30
-MIN_POWER_TO_MOVE = 11
+MIN_POWER_TO_MOVE = 15
 POST_MOVE_WAIT_MS = 500
 ##############################################################
 ##############################################################
@@ -110,79 +110,88 @@ def test_trip():
 
 def the_trip_with_the_crates():
     grind(left_speed=-20,right_speed=-20, run_seconds=0.5)
+    #grinding against south wall to ensure wheel accuracy
     two_wheel_move(left_degrees=624, right_degrees=475, speed=30)
     two_wheel_move(left_degrees=519, right_degrees=486, speed=30)
     turn_until_line(left_or_right=TurnType.LEFT)
-    #Blue tree shadow might be problematic
+    #finding the line going across the middle
     line_follower_with_color(speed=30)
     line_follower(move_degrees=300, speed=30, gain=0.19)
     line_follower(move_degrees=450, speed=20, gain=0.25)
-    #two_wheel_move(left_degrees=713, right_degrees=320, speed=30)
-    #two_wheel_move(left_degrees=763, right_degrees=370, speed=30)
     two_wheel_move(left_degrees=748, right_degrees=370, speed=30)
+    #Following lines
     hub.speaker.beep(100, 0.10)
     grind(left_speed=20, right_speed=22, run_seconds=3)
+    #Approach the model for the first time
     hub.speaker.beep(100, 0.10)
     motor_front_left.run_for_degrees(-100, speed=MAX_SPEED)
     motor_front_left.run_for_degrees(100, speed=MAX_SPEED)
+    #hits train track down
     straight(degrees_to_move=-192, speed=20)
     motor_front_right.run_for_degrees(2070, speed=MAX_SPEED)
-    #grind(left_speed=20, right_speed=20, run_seconds=3)
     grind(left_speed=25, right_speed=27, run_seconds=3)
+    #Approaching the mission model again 
     motor_front_right.run_for_degrees(-2070, speed=MAX_SPEED)
+    #moves forklift up
     grind(left_speed=20, right_speed=20, run_seconds=1)
-    straight(degrees_to_move=-585, speed=20)
+    straight(degrees_to_move=-605, speed=20)
     motor_front_left.run_for_degrees(-100, speed=MAX_SPEED)
-    straight(degrees_to_move=585, speed=20)
+    #lowers the stick to push the train
+    straight(degrees_to_move=605, speed=20)
     grind(left_speed=20, right_speed=20, run_seconds=1)
     two_wheel_move(left_degrees=10, right_degrees=-20, speed=30)
     motor_front_left.run_for_degrees(100, speed=MAX_SPEED)
     grind(left_speed=25, right_speed=40, run_seconds=2)
-    #old code below here
+    #starts to go home here
     hub.speaker.beep(100, 0.10)
     straight(degrees_to_move=-200, speed=25)
     hub.speaker.beep(100, 0.10)
     acquire_line(speed=-20)
     motor_left.run_for_degrees(-50,20)
-    gyro_turn(input_angle=247, relative=False, timeout=2, left_or_right=TurnType.BOTH, counter_or_clock=TurnDirection.CLOCKWISE)
+    gyro_turn(input_angle=244, relative=False, timeout=7, left_or_right=TurnType.BOTH, counter_or_clock=TurnDirection.CLOCKWISE)
     hub.speaker.beep(100, 0.10)
     motor_front_left.run_for_seconds(1,-MAX_SPEED)
+    #lowers the stick for the second bridge
     two_wheel_move(left_degrees=884, right_degrees=836, speed=35)
-    #two_wheel_move(left_degrees=502, right_degrees=462, speed=30)
     two_wheel_move(left_degrees=45, right_degrees=2, speed=30)
     straight(degrees_to_move=380, speed=40)
     two_wheel_move(left_degrees=250, right_degrees=307, speed=40)
     two_wheel_move(left_degrees=208, right_degrees=121, speed=40)
     straight(degrees_to_move=936, speed=100)
-    rot_motion()
 
 def the_trip_with_the_chest():
-    #motor_front_left.run_for_seconds(seconds=0.1,speed=10)
-    #motor_front_right.run_for_seconds(seconds=2, speed=10)
-    #motor_front_left.set_degrees_counted(0)
-    #motor_front_right.set_degrees_counted(0)
-    #motor_front_right.run_for_degrees(-40,speed=30)
+    motor_front_right.start_at_power(power=20)
+    motor_front_left.start_at_power(power=-20)
+    wait_for_ms(250)
+    motor_front_right.stop()
+    motor_front_left.stop()
     grind(left_speed=-40, right_speed=-40, run_seconds=0.3)
+    #grinding against south wall to ensure wheel accuracy
     motor_front_left.run_for_degrees(60, speed=40)
     two_wheel_move(left_degrees=963, right_degrees=919, speed=40)
-    #two_wheel_move(left_degrees=38, right_degrees=-38, speed=20)
     two_wheel_move(left_degrees=38, right_degrees=-38, speed=20)
     two_wheel_move(left_degrees=85, right_degrees=85, speed=40)
+    #getting into position 
     motor_front_left.run_for_degrees(120, speed=30)
-    hub.speaker.beep(100,1)
+    #hits airplane door down
     motor_front_left.run_for_degrees(-140, speed=20)
     two_wheel_move(left_degrees=65, right_degrees=65, speed=30)
     motor_front_left.run_for_degrees(50, speed=40)
     motor_front_left.run_for_degrees(-80,speed=40)
-    #motor_front_right.run_for_degrees(-70,speed=30)
+    #captures small airplane
     two_wheel_move(left_degrees=130, right_degrees=150, speed=30)
     two_wheel_move(left_degrees=66, right_degrees=3, speed=30)
+    #move forward to put green block in circle
     motor_front_right.run_for_degrees( -30, speed=30)
-    motor_front_right.run_for_degrees(-100, speed=40)
+    motor_front_right.run_for_degrees(-100, speed=25)
+    #hits engine up
     two_wheel_move(left_degrees=-220, right_degrees=-242, speed=30)
     two_wheel_move(left_degrees=-215, right_degrees=-200, speed =30)
+    #backs away from mission models
     two_wheel_move(left_degrees=-127, right_degrees=35, speed=30)
-    motor_front_left.run_for_degrees(90, speed=50)
+    #turns to get airplane past the blue line
+    motor_front_left.run_for_seconds(seconds=0.5, speed=50)
+    #raises arm to not get stuck
     straight(degrees_to_move=-945, speed=100)
 
 def the_trip_with_the_crane():
@@ -190,25 +199,30 @@ def the_trip_with_the_crane():
     two_wheel_move(left_degrees=624, right_degrees=475, speed=30)
     two_wheel_move(left_degrees=519, right_degrees=486, speed=30)
     turn_until_line(left_or_right=TurnType.LEFT)
-    #Blue tree shadow might be problematic
+    #finding line to follow
     line_follower_with_color(speed=30)
     straight(degrees_to_move=25)
+    #following line and moving a bit forward
     two_wheel_move(left_degrees=249, right_degrees=543, speed=30)
     two_wheel_move(left_degrees=40, right_degrees=46, speed=30)
     grind(run_seconds=1, right_speed=0, left_speed=30)
     grind(run_seconds=1, right_speed=30, left_speed=30)
+    #squaring up on the cargo ship model
     motor_front_right.run_for_degrees(-100,MAX_SPEED)
     square_up_on_line(speed=-15)
+    #moving backwards and squaring up on the line using both color sensors
     two_wheel_move(left_degrees=-270, right_degrees=0, speed=20)
     two_wheel_move(left_degrees=-340, right_degrees=-343, speed=30)
     motor_front_left.run_for_seconds(1, -30)
+    #dropping stuff into cargo connect circle
     two_wheel_move(left_degrees=-282, right_degrees=-212, speed=30)
     two_wheel_move(left_degrees=-416, right_degrees=-208, speed=30)
-    #two_wheel_move(left_degrees=-200, right_degrees=-200, speed=30)
     two_wheel_move(left_degrees=-160, right_degrees=-160, speed=30)
+    #hitting the helicopter
     two_wheel_move(left_degrees=-61, right_degrees=-259, speed=30)
     two_wheel_move(left_degrees=226, right_degrees=-3, speed=30)
-    straight(degrees_to_move=45)
+    two_wheel_move(left_degrees=55, right_degrees=30, speed=30)
+    #postioning into the circle
 
 def the_ending_trip():
     two_wheel_move(left_degrees=1044, right_degrees=1103, speed=30)
@@ -301,7 +315,7 @@ def gyro_turn(input_angle = 90, relative = False, timeout = 6, left_or_right = T
     MAX_POWER = 30
     error = 1000000
     power = 0
-    gain = 0.8
+    gain = 0.95
     while abs(error) > STOP_AT_TARGET_TOLERANCE:
         error = hub.motion_sensor.get_yaw_angle() - sanitized_target_angle
         raw_power = abs(gain * error) + MIN_POWER_TO_MOVE
@@ -361,7 +375,7 @@ def two_wheel_move(left_degrees=100, right_degrees=100, speed=30):
     while not is_done():
         pass
     print(get_left_motor_degrees(), get_right_motor_degrees())
-    #print("Two Wheel Move Complete")
+    print("Two Wheel Move Complete")
 
 def straight(degrees_to_move=500, speed=35):
     two_wheel_move(left_degrees=degrees_to_move, right_degrees=degrees_to_move, speed=speed)
